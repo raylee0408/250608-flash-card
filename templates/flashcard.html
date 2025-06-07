@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flashcard</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7f7f7; }
+        .container { background: #fff; border-radius: 12px; padding: 32px; margin: 40px auto; width: 400px; box-shadow: 0 0 10px #ccc; }
+        h1 { color: #34a853; text-align: center; }
+        .card { background: #e9fbe9; border-radius: 10px; padding: 32px; margin: 20px 0; text-align: center; font-size: 1.3em; }
+        .btn-group { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+        button, a.button { padding: 12px 24px; border: none; border-radius: 6px; font-size: 1em; cursor: pointer; margin: 4px; }
+        .flip { background: #34a853; color: #fff; }
+        .next { background: #34a853; color: #fff; }
+        .add { background: #34a853; color: #fff; }
+        .delete { background: #ea4335; color: #fff; }
+        .button { text-decoration: none; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Flashcards!</h1>
+        <div class="card">
+            {% if show_answer and not no_cards %}
+                <div><strong>Answer:</strong> {{ answer }}</div>
+            {% else %}
+                <div><strong>Question:</strong> {{ question }}</div>
+                <form method="post" action="{{ url_for('flip') }}">
+                </form>
+            {% endif %}
+        </div>
+
+        <div class="btn-group">
+            {% if not no_cards %}
+            <form action="{{ url_for('flip') }}" method="post" style="display:inline;">
+                <button class="flip" type="submit">Flip Card</button>
+            </form>
+            <form action="{{ url_for('skip_card') }}" method="post" style="display:inline;">
+                <button class="next" type="submit">Skip Card</button>
+            </form>
+            <a href="{{ url_for('add_card') }}" class="button add">Add New Card</a>
+            <form action="{{ url_for('delete_card') }}" method="post" style="display:inline;">
+                <button class="delete" type="submit">Delete Card</button>
+            </form>
+            <a href="{{ url_for('list_questions') }}" class="button">List All Questions</a>
+            {% else %}
+            <a href="{{ url_for('add_card') }}" class="button add">Add New Card</a>
+
+
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
